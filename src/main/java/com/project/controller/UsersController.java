@@ -1,6 +1,8 @@
 package com.project.controller;
 
 import com.project.model.User;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -59,14 +61,12 @@ public class UsersController {
 		return "redirect:/users";
 	}
 
-	@GetMapping("/delete")
-	public String deleteUser(@RequestParam(value = "id", required = true, defaultValue = "") long id,
-								   RedirectAttributes attributes) {
-		User user = userService.deleteUser(id);
 
-		attributes.addFlashAttribute("flashMessage", (null == user) ?
-				"User are not exists!" :
-				"User " + user.getFirstName() + " successfully deleted!");
+	@DeleteMapping("/delete/{id}")
+
+	public String deleteUser(@PathVariable (value = "id", required = true) long id,
+							 RedirectAttributes attributes) {
+		userService.deleteUser(id);
 
 		return "redirect:/users";
 	}
